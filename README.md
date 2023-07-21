@@ -98,3 +98,15 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+### Routing with the React-Router library
+1. npm install react-router-dom
+2. Add the Router settings in index.js
+3. Add a Switch to your App.js file to handle your routes
+4. Create an individual Route component for each URL you need
+5. Add a render prop to your Route with the component to render
+6. Add a path prop to your Route
+7. Add an exact prop to any Route with a defined path
+8. Add NavLink components to your navigation and set their to prop
+9. Handle any incorrect urls with the last Route in the Switch
+10. Do not provide a path or exact prop for the page not found error page.
