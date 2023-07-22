@@ -110,3 +110,17 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 8. Add NavLink components to your navigation and set their to prop
 9. Handle any incorrect urls with the last Route in the Switch
 10. Do not provide a path or exact prop for the page not found error page.
+
+### Setting up and consuming context value in a child component (The useContext hook): 
+1. Create a Context Object
+    1. export const CurrentUserContext = createContext();
+2. Wrap the children components in the Context Object Provider
+    2. <CurrentUserContext.Provider>
+            <div className={styles.App}> (...) </div>
+        </CurrentUserContext.Provider>
+3. Pass in the data you would like the children components to access in the value prop
+    3.   <CurrentUserContext.Provider value={currentUser}>
+            <div className={styles.App}></div>
+        </CurrentUserContext.Provider>
+4. Access that data in a child component by calling useContext(ContextObject)
+    4. const currentUser = useContext(CurrentUserContext);
