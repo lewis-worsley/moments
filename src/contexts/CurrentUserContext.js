@@ -27,7 +27,6 @@ export const CurrentUserProvider = ({ children }) => {
 	}, []);
 
 	useMemo(() => {
-
 		axiosReq.interceptors.request.use(
 			async (config) => {
 				try {
