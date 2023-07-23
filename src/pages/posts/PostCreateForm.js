@@ -5,6 +5,8 @@ import Button from "react-bootstrap/Button";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import Alert from "react-bootstrap/Alert";
+import Image from "react-bootstrap/Image";
 
 import Asset from "../../components/Asset";
 
@@ -14,7 +16,6 @@ import styles from "../../styles/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
-import { Alert, Image } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import { axiosReq } from "../../api/axiosDefaults";
 
@@ -26,7 +27,6 @@ function PostCreateForm() {
         content: "",
         image: "",
     });
-
     const { title, content, image } = postData;
 
     const imageInput = useRef(null);
@@ -46,31 +46,30 @@ function PostCreateForm() {
                 ...postData,
                 image: URL.createObjectURL(event.target.files[0])
             });
-        };
+        }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
 
-        formData.append('title', title)
-        formData.append('content', content)
-        formData.append('image', imageInput.current.files[0])
+        formData.append('title', title);
+        formData.append('content', content);
+        formData.append('image', imageInput.current.files[0]);
 
         try {
-            const { data } = await axiosReq.post('/posts/', formData)
-            history.push(`/posts/${data.id}`)
+            const { data } = await axiosReq.post('/posts/', formData);
+            history.push(`/posts/${data.id}`);
         } catch (err) {
             console.log(err);
-            if (err.response?.status === 401) {
-                setErrors(err.response?.data)
+            if (err.response?.status !== 401) {
+                setErrors(err.response?.data);
             }
         }
-    }
+    };
 
     const textFields = (
         <div className="text-center">
-            <Form >
                 <Form.Group>
                     <Form.Label>Title</Form.Label>
                     <Form.Control
@@ -101,7 +100,6 @@ function PostCreateForm() {
                         {message}
                     </Alert>
                 })}
-            </Form>
 
             <Button
                 className={`${btnStyles.Button} ${btnStyles.Blue}`}
@@ -142,7 +140,10 @@ function PostCreateForm() {
                                     className="d-flex justify-content-center"
                                     htmlFor="image-upload"
                                 >
-                                    <Asset src={Upload} message="Click or tap to upload an image" />
+                                    <Asset 
+                                        src={Upload} 
+                                        message="Click or tap to upload an image" 
+                                    />
                                 </Form.Label>
                             )}
 
@@ -158,6 +159,7 @@ function PostCreateForm() {
                                 {message}
                             </Alert>
                         })}
+                        
                         <div className="d-md-none">{textFields}</div>
                     </Container>
                 </Col>
