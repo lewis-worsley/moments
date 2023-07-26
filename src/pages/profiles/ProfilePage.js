@@ -12,15 +12,15 @@ import btnStyles from "../../styles/Button.module.css";
 
 import PopularProfiles from "./PopularProfiles";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import {
     useProfileData,
-    useSetProfileData
+    useSetProfileData,
 } from "../../contexts/ProfileDataContext";
 import { Button, Image } from "react-bootstrap";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Post from '../posts/Post'
+import Post from "../posts/Post";
 import { fetchMoreData } from "../../utils/utils";
 import NoResults from "../../assets/no-results.png";
 
@@ -31,31 +31,31 @@ function ProfilePage() {
     const currentUser = useCurrentUser();
     const { id } = useParams();
 
-    const { setProfileData, handleFollow } = useSetProfileData();
+    const { setProfileData, handleFollow, handleUnfollow } = useSetProfileData();
     const { pageProfile } = useProfileData();
 
     const [profile] = pageProfile.results;
-    const is_owner = currentUser?.username === profile?.owner
+    const is_owner = currentUser?.username === profile?.owner;
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const [{ data: pageProfile }, { data: profilePosts }] =
                     await Promise.all([
-                        axiosReq.get(`/profiles/${id}`),
-                        axiosReq.get(`/posts/?owner__profile=${id}`)
+                        axiosReq.get(`/profiles/${id}/`),
+                        axiosReq.get(`/posts/?owner__profile=${id}`),
                     ]);
-                setProfileData(prevState => ({
+                setProfileData((prevState) => ({
                     ...prevState,
-                    pageProfile: { results: [pageProfile] }
+                    pageProfile: { results: [pageProfile] },
                 }));
                 setProfilePosts(profilePosts);
                 setHasLoaded(true);
             } catch (err) {
-                console.log(err)
+                console.log(err);
             }
-        }
-        fetchData()
+        };
+        fetchData();
     }, [id, setProfileData]);
 
     const mainProfile = (
@@ -91,7 +91,7 @@ function ProfilePage() {
                         (profile?.following_id ? (
                             <Button
                                 className={`${btnStyles.Button} ${btnStyles.BlackOutline}`}
-                                onClick={() => { }}
+                                onClick={() => handleUnfollow(profile)}
                             >
                                 unfollow
                             </Button>
@@ -104,7 +104,7 @@ function ProfilePage() {
                             </Button>
                         ))}
                 </Col>
-                {profile?.content && (<Col className="p-3">{profile.content}</Col>)}
+                {profile?.content && <Col className="p-3">{profile.content}</Col>}
             </Row>
         </>
     );
