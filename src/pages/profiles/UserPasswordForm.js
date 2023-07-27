@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 
 import Alert from "react-bootstrap/Alert";
 import Button from "react-bootstrap/Button";
@@ -7,7 +8,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { axiosRes } from "../../api/axiosDefaults";
 import { useCurrentUser } from "../../contexts/CurrentUserContext";
 
