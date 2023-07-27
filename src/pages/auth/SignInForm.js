@@ -16,10 +16,11 @@ import btnStyles from "../../styles/Button.module.css";
 import appStyles from "../../App.module.css";
 import { useSetCurrentUser } from "../../contexts/CurrentUserContext";
 import { useRedirect } from "../../hooks/useRedirect";
+import { setTokenTimestamp } from "../../utils/utils";
 
 function SignInForm() {
 	const setCurrentUser = useSetCurrentUser();
-	useRedirect('loggedIn');
+	useRedirect("loggedIn");
 
 	const [signInData, setSignInData] = useState({
 		username: "",
@@ -28,14 +29,15 @@ function SignInForm() {
 	const { username, password } = signInData;
 
 	const [errors, setErrors] = useState({});
-	
-	const history = useHistory();
 
+	const history = useHistory();
 	const handleSubmit = async (event) => {
 		event.preventDefault();
+
 		try {
-			const {data} = await axios.post("/dj-rest-auth/login/", signInData);
-			setCurrentUser(data.user)
+			const { data } = await axios.post("/dj-rest-auth/login/", signInData);
+			setCurrentUser(data.user);
+			setTokenTimestamp(data);
 			history.goBack();
 		} catch (err) {
 			setErrors(err.response?.data);
@@ -58,7 +60,7 @@ function SignInForm() {
 						<Form.Group controlId="username">
 							<Form.Label className="d-none">Username</Form.Label>
 							<Form.Control
-								type="text" 
+								type="text"
 								placeholder="Username"
 								name="username"
 								className={styles.Input}
@@ -67,7 +69,7 @@ function SignInForm() {
 							/>
 						</Form.Group>
 						{errors.username?.map((message, idx) => (
-							<Alert variant="warning" key={idx}>
+							<Alert key={idx} variant="warning">
 								{message}
 							</Alert>
 						))}
@@ -75,25 +77,24 @@ function SignInForm() {
 						<Form.Group controlId="password">
 							<Form.Label className="d-none">Password</Form.Label>
 							<Form.Control
-								type="password" 
+								type="password"
 								placeholder="Password"
 								name="password"
 								className={styles.Input}
 								value={password}
 								onChange={handleChange}
 							/>
-							{errors.password?.map((message, idx) => (
-								<Alert variant="warning" key={idx}>
-									{message}
-								</Alert>
-							))}
 						</Form.Group>
-
+						{errors.password?.map((message, idx) => (
+							<Alert key={idx} variant="warning">
+								{message}
+							</Alert>
+						))}
 						<Button
-							className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}}`}
+							className={`${btnStyles.Button} ${btnStyles.Wide} ${btnStyles.Bright}`}
 							type="submit"
 						>
-							Sign In
+							Sign in
 						</Button>
 						{errors.non_field_errors?.map((message, idx) => (
 							<Alert key={idx} variant="warning" className="mt-3">
@@ -102,11 +103,10 @@ function SignInForm() {
 						))}
 					</Form>
 				</Container>
-
 				<Container className={`mt-3 ${appStyles.Content}`}>
-				<Link className={styles.Link} to="/signup">
-					Don't have an account? <span>Sign up now!</span>
-				</Link>
+					<Link className={styles.Link} to="/signup">
+						Don't have an account? <span>Sign up now!</span>
+					</Link>
 				</Container>
 			</Col>
 			<Col
@@ -114,8 +114,8 @@ function SignInForm() {
 				className={`my-auto d-none d-md-block p-2 ${styles.SignInCol}`}
 			>
 				<Image
-				className={`${appStyles.FillerImage}`}
-				src={"https://codeinstitute.s3.amazonaws.com/AdvancedReact/hero.jpg"}
+					className={`${appStyles.FillerImage}`}
+					src={"https://codeinstitute.s3.amazonaws.com/AdvancedReact/hero.jpg"}
 				/>
 			</Col>
 		</Row>

@@ -16,7 +16,7 @@ import styles from "../../styles/PostCreateEditForm.module.css";
 import appStyles from "../../App.module.css";
 import btnStyles from "../../styles/Button.module.css";
 
-import { useHistory } from "react-router-dom";
+import { useHistory } from "react-router";
 import { axiosReq } from "../../api/axiosDefaults";
 import { useRedirect } from "../../hooks/useRedirect";
 
@@ -46,7 +46,7 @@ function PostCreateForm() {
             URL.revokeObjectURL(image);
             setPostData({
                 ...postData,
-                image: URL.createObjectURL(event.target.files[0])
+                image: URL.createObjectURL(event.target.files[0]),
             });
         }
     };
@@ -81,11 +81,11 @@ function PostCreateForm() {
                     onChange={handleChange}
                 />
             </Form.Group>
-            {errors?.title?.map((message, idx) => {
+            {errors?.title?.map((message, idx) => (
                 <Alert variant="warning" key={idx}>
                     {message}
                 </Alert>
-            })}
+            ))}
 
             <Form.Group>
                 <Form.Label>Content</Form.Label>
@@ -97,11 +97,11 @@ function PostCreateForm() {
                     onChange={handleChange}
                 />
             </Form.Group>
-            {errors?.content?.map((message, idx) => {
+            {errors?.content?.map((message, idx) => (
                 <Alert variant="warning" key={idx}>
                     {message}
                 </Alert>
-            })}
+            ))}
 
             <Button
                 className={`${btnStyles.Button} ${btnStyles.Blue}`}
@@ -156,11 +156,11 @@ function PostCreateForm() {
                                 ref={imageInput}
                             />
                         </Form.Group>
-                        {errors?.image?.map((message, idx) => {
+                        {errors?.image?.map((message, idx) => (
                             <Alert variant="warning" key={idx}>
                                 {message}
                             </Alert>
-                        })}
+                        ))}
 
                         <div className="d-md-none">{textFields}</div>
                     </Container>
@@ -174,3 +174,4 @@ function PostCreateForm() {
 }
 
 export default PostCreateForm;
+
