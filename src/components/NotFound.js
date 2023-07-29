@@ -1,6 +1,6 @@
 import React from 'react'
 import NoResults from '../assets/no-results.png'
-import styles from '../styles/NoResults.modules.css'
+import styles from '../styles/NotFound.modules.css'
 import Asset from './Asset'
 
 const NotFound = () => {
